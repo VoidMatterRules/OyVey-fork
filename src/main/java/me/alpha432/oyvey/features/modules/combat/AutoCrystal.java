@@ -9,10 +9,8 @@ import me.alpha432.oyvey.features.modules.misc.AutoGG;
 import me.alpha432.oyvey.features.setting.Setting;
 import me.alpha432.oyvey.util.Timer;
 import me.alpha432.oyvey.util.*;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -257,10 +255,8 @@ public class AutoCrystal
             double damage = 0.5;
             for (BlockPos blockPos : this.placePostions(this.placeRange.getValue())) {
                 if (blockPos == null) continue;
-                if (!canSeePos(blockPos)) {
-                    if (mc.player.getDistanceSqToCenter(blockPos) > MathUtil.square(this.placeWallRange.getValue()) ) {
-                        continue;
-                    }
+                if (!canSeePos(blockPos) && mc.player.getDistance(blockPos.getX(), blockPos.getY(), blockPos.getZ()) > (double) placeWallRange.getValue()) {
+                    continue;
                 }
                 double selfDmg;
                 if (this.target == null || !mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(blockPos)).isEmpty() || (this.target.getDistance(blockPos.getX(), blockPos.getY(), blockPos.getZ())) > (double) this.targetRange.getValue() || this.target.isDead || this.target.getHealth() + this.target.getAbsorptionAmount() <= 0.0f)
@@ -411,7 +407,8 @@ public class AutoCrystal
     }
 
     EntityPlayer getTarget() {
-        EntityPlayer closestPlayer = null;
+        EntityPlayer targetPlayer = null;
+        float targetDmg = 0.0f;
         for (EntityPlayer entity : mc.world.playerEntities) {
             if (mc.player == null || mc.player.isDead || entity.isDead || entity == mc.player || OyVey.friendManager.isFriend(entity.getName()) || entity.getDistance(mc.player) > 12.0f)
                 continue;
@@ -425,15 +422,16 @@ public class AutoCrystal
             }
             if (EntityUtil.isInHole(entity) && entity.getAbsorptionAmount() + entity.getHealth() > this.facePlace.getValue() && !this.armorTarget && this.minDamage.getValue() > 2.2f)
                 continue;
-            if (closestPlayer == null) {
-                closestPlayer = entity;
+            if (targetPlayer == null) {
+                targetPlayer = entity;
                 continue;
             }
-            if (!(closestPlayer.getDistance(mc.player) > entity.getDistance(mc.player)))
-                continue;
-            closestPlayer = entity;
+            float currentDmg = calculateDamage(entity.posX, entity.posY, entity.posZ, entity);
+            if (currentDmg <= targetDmg) continue;
+            targetPlayer = entity;
+            targetDmg = currentDmg;
         }
-        return closestPlayer;
+        return targetPlayer;
     }
 
     private void manualBreaker() {
@@ -470,7 +468,7 @@ public class AutoCrystal
 
     private NonNullList<BlockPos> placePostions(float placeRange) {
         NonNullList positions = NonNullList.create();
-        positions.addAll(AutoCrystal.getSphere(new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY), Math.floor(mc.player.posZ)), placeRange, (int) placeRange, false, true, 0).stream().filter(pos -> this.canPlaceCrystal(pos, true)).collect(Collectors.toList()));
+        positions.addAll(AutoCrystal.getSphere(new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY + 1), Math.floor(mc.player.posZ)), placeRange, (int) placeRange, false, true, 0).stream().filter(pos -> this.canPlaceCrystal(pos, true)).collect(Collectors.toList()));
         return positions;
     }
 
