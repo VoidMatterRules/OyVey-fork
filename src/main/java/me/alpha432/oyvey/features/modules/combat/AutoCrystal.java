@@ -432,7 +432,7 @@ public class AutoCrystal
             for (int x = -range; x < range; x++) {
                 for (int y = -range; y < range; y++) {
                     for (int z = -range; z < range; z++) {
-                        currentDmg = calculateDamage(x, y, z, entity);
+                        currentDmg = calculateDamage(new Vec3d(x, y, z), entity);
                     }
                 }
             }
@@ -540,6 +540,29 @@ public class AutoCrystal
             finald = DamageUtil.getBlastReduction((EntityLivingBase) entity, this.getDamageMultiplied(damage), new Explosion(mc.world, null, posX, posY, posZ, 6.0f, false, true));
         }
         return (float) finald;
+    }
+
+    private float calculateDamage(Vec3d explosionPos, EntityLivingBase target) {
+        double distance = target.getDistance(explosionPos.x, explosionPos.y, explosionPos.z) / 12.0;
+
+        double blockDensity;
+        try {
+            blockDensity = target.world.getBlockDensity(explosionPos, target.getEntityBoundingBox());
+        } catch (Exception e) {
+            blockDensity = 0.0;
+        }
+
+        double v = (1.0 - distance) * blockDensity;
+        float rawDamage = (float) ((v * v + v) / 2.0 * 7.0 * 12.0 + 1.0);
+
+        Explosion fakeExplosion = new Explosion(
+                target.world, null,
+                explosionPos.x, explosionPos.y, explosionPos.z,
+                6.0f, false, true
+        );
+
+        float finalDamage = DamageUtil.getBlastReduction(target, getDamageMultiplied(rawDamage), fakeExplosion);
+        return finalDamage;
     }
 
     private float getDamageMultiplied(float damage) {
