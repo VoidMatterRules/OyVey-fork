@@ -8,12 +8,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-@Mod(modid = "oyvey", name = "OyVey", version = "0.0.3")
+@Mod(modid = "opium", name = "Opium", version = "1.12.2")
 public class OyVey {
-    public static final String MODID = "oyvey";
-    public static final String MODNAME = "OyVey";
-    public static final String MODVER = "0.0.3";
-    public static final Logger LOGGER = LogManager.getLogger("OyVey");
+    public static final String MODID = "opium";
+    public static final String MODNAME = "Opium";
+    public static final String MODVER = "1.12.2";
+    public static final Logger LOGGER = LogManager.getLogger("Opium");
     public static CommandManager commandManager;
     public static FriendManager friendManager;
     public static ModuleManager moduleManager;
@@ -40,7 +40,7 @@ public class OyVey {
     }
 
     public static void load() {
-        LOGGER.info("\n\nLoading OyVey by Alpha432");
+        LOGGER.info("\n\nLoading Opium by RetardMatter");
         unloaded = false;
         if (reloadManager != null) {
             reloadManager.unload();
@@ -70,11 +70,11 @@ public class OyVey {
         LOGGER.info("EventManager loaded.");
         textManager.init(true);
         moduleManager.onLoad();
-        LOGGER.info("OyVey successfully loaded!\n");
+        LOGGER.info("Opium successfully loaded!\n");
     }
 
     public static void unload(boolean unload) {
-        LOGGER.info("\n\nUnloading OyVey by Alpha432");
+        LOGGER.info("\n\nUnloading Opium by RetardMatter");
         if (unload) {
             reloadManager = new ReloadManager();
             reloadManager.init(commandManager != null ? commandManager.getPrefix() : ".");
@@ -95,7 +95,7 @@ public class OyVey {
         inventoryManager = null;
         moduleManager = null;
         textManager = null;
-        LOGGER.info("OyVey unloaded!\n");
+        LOGGER.info("Opium unloaded!\n");
     }
 
     public static void reload() {
@@ -120,7 +120,7 @@ public class OyVey {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        Display.setTitle("OyVey v0.0.3");
+        Display.setTitle("Opium v1.12.2");
         OyVey.load();
     }
 }
