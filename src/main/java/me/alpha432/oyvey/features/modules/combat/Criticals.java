@@ -13,9 +13,8 @@ import java.util.Objects;
 
 public class Criticals
         extends Module {
-    private final Setting<Integer> packets = this.register(new Setting<Integer>("Packets", Integer.valueOf(2), Integer.valueOf(1), Integer.valueOf(4), "Amount of packets you want to send."));
+    private final Setting<Integer> packets = this.register(new Setting<>("Packets", 2, 1, 4, "Amount of packets you want to send."));
     private final Timer timer = new Timer();
-    private final boolean resetTimer = false;
 
     public Criticals() {
         super("Criticals", "Scores criticals for you", Module.Category.COMBAT, true, false, false);
@@ -25,9 +24,6 @@ public class Criticals
     public void onPacketSend(PacketEvent.Send event) {
         CPacketUseEntity packet;
         if (event.getPacket() instanceof CPacketUseEntity && (packet = event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK) {
-            if (this.resetTimer) {
-                return;
-            }
             if (!this.timer.passedMs(0L)) {
                 return;
             }

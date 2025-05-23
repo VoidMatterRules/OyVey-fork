@@ -10,6 +10,7 @@ import me.alpha432.oyvey.features.command.Command;
 import me.alpha432.oyvey.features.modules.client.HUD;
 import me.alpha432.oyvey.features.setting.Bind;
 import me.alpha432.oyvey.features.setting.Setting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -29,6 +30,7 @@ public class Module
     public float offset;
     public float vOffset;
     public boolean sliding;
+    public static Minecraft mc = Minecraft.getMinecraft();
 
     public Module(String name, String description, Category category, boolean hasListener, boolean hidden, boolean alwaysListening) {
         super(name);
