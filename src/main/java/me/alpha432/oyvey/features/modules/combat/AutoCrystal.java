@@ -9,6 +9,7 @@ import me.alpha432.oyvey.features.modules.misc.AutoGG;
 import me.alpha432.oyvey.features.setting.Setting;
 import me.alpha432.oyvey.util.Timer;
 import me.alpha432.oyvey.util.*;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderCrystal;
@@ -426,7 +427,15 @@ public class AutoCrystal
                 targetPlayer = entity;
                 continue;
             }
-            float currentDmg = calculateDamage(entity.posX, entity.posY, entity.posZ, entity);
+            float currentDmg = 0.0f;
+            int range = placeRange.getValue().intValue();
+            for (int x = -range; x < range; x++) {
+                for (int y = -range; y < range; y++) {
+                    for (int z = -range; z < range; z++) {
+                        currentDmg = calculateDamage(x, y, z, entity);
+                    }
+                }
+            }
             if (currentDmg <= targetDmg) continue;
             targetPlayer = entity;
             targetDmg = currentDmg;
