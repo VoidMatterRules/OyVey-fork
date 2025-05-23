@@ -8,12 +8,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-@Mod(modid = "opium", name = "Opium", version = "1.12.2")
+@Mod(modid = "somahax", name = "somahax.sex", version = "0.69")
 public class OyVey {
-    public static final String MODID = "opium";
-    public static final String MODNAME = "Opium";
-    public static final String MODVER = "1.12.2";
-    public static final Logger LOGGER = LogManager.getLogger("Opium");
+    public static final String MODID = "somahax";
+    public static final String MODNAME = "somahax.sex";
+    public static final String MODVER = "0.69";
+    public static final Logger LOGGER = LogManager.getLogger("somahax.sex");
     public static CommandManager commandManager;
     public static FriendManager friendManager;
     public static ModuleManager moduleManager;
@@ -40,7 +40,7 @@ public class OyVey {
     }
 
     public static void load() {
-        LOGGER.info("\n\nLoading Opium by RetardMatter");
+        LOGGER.info("\n\nLoading somahax by RetardMatter and CrystalRetardium");
         unloaded = false;
         if (reloadManager != null) {
             reloadManager.unload();
@@ -70,11 +70,11 @@ public class OyVey {
         LOGGER.info("EventManager loaded.");
         textManager.init(true);
         moduleManager.onLoad();
-        LOGGER.info("Opium successfully loaded!\n");
+        LOGGER.info("somahax successfully loaded!\n");
     }
 
     public static void unload(boolean unload) {
-        LOGGER.info("\n\nUnloading Opium by RetardMatter");
+        LOGGER.info("\n\nUnloading somahax by RetardMatter and CrystalRetardium");
         if (unload) {
             reloadManager = new ReloadManager();
             reloadManager.init(commandManager != null ? commandManager.getPrefix() : ".");
@@ -95,7 +95,7 @@ public class OyVey {
         inventoryManager = null;
         moduleManager = null;
         textManager = null;
-        LOGGER.info("Opium unloaded!\n");
+        LOGGER.info("somahax unloaded!\n");
     }
 
     public static void reload() {
@@ -120,7 +120,7 @@ public class OyVey {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        Display.setTitle("Opium v1.12.2");
+        Display.setTitle("Somahax.sex 0.69");
         OyVey.load();
     }
 }
