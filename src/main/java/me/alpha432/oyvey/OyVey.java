@@ -40,7 +40,7 @@ public class OyVey {
     }
 
     public static void load() {
-        LOGGER.info("\n\nLoading somahax by RetardMatter and CrystalRetardium");
+        LOGGER.info("\n\nLoading somahax by RetardMatter and CrystalRetardium!");
         unloaded = false;
         if (reloadManager != null) {
             reloadManager.unload();
