@@ -1,7 +1,6 @@
 package me.alpha432.oyvey.mixin.mixins;
 
 import com.google.common.base.Predicate;
-import me.alpha432.oyvey.features.modules.misc.Tracker;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -22,13 +21,6 @@ public class MixinWorld {
             chunk.getEntitiesOfTypeWithinAABB(entityClass, aabb, listToFill, filter);
         } catch (Exception exception) {
             // empty catch block
-        }
-    }
-
-    @Inject(method = {"onEntityAdded"}, at = {@At(value = "HEAD")})
-    private void onEntityAdded(Entity entityIn, CallbackInfo ci) {
-        if (Tracker.getInstance().isOn()) {
-            Tracker.getInstance().onSpawnEntity(entityIn);
         }
     }
 }

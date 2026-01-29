@@ -7,7 +7,6 @@ import me.alpha432.oyvey.event.events.*;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.command.Command;
 import me.alpha432.oyvey.features.modules.client.HUD;
-import me.alpha432.oyvey.features.modules.misc.PopCounter;
 import me.alpha432.oyvey.util.Timer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -73,7 +72,6 @@ public class EventManager extends Feature {
             if (player == null || player.getHealth() > 0.0F)
                 continue;
             MinecraftForge.EVENT_BUS.post(new DeathEvent(player));
-            PopCounter.getInstance().onDeath(player);
         }
     }
 
@@ -102,7 +100,6 @@ public class EventManager extends Feature {
             if (packet.getOpCode() == 35 && packet.getEntity(mc.world) instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) packet.getEntity(mc.world);
                 MinecraftForge.EVENT_BUS.post(new TotemPopEvent(player));
-                PopCounter.getInstance().onTotemPop(player);
             }
         }
         if (event.getPacket() instanceof SPacketPlayerListItem && !fullNullCheck() && this.logoutTimer.passedS(1.0D)) {
